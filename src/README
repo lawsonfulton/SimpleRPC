@@ -1,0 +1,34 @@
+Group Members:
+	- Lawson Fulton (ljfulton) 20381453
+	- Devruth Khanna (dkhanna) 20295702
+
+Dependancies:
+	- Must build/link with -std=c++0x flag.
+	- Must build/link with -pthread flag
+
+Build Instructions:
+For librpc.a:
+	$make
+
+For the client:
+	$g++ -std=c++0x -w client.c -o client librpc.a -pthread
+
+For the server:
+	$g++ -std=c++0x -w server.c server_function_skels.c server_functions.c -o server librpc.a -pthread
+
+Execution Instructions:
+(In this order)
+Binder:
+	$./binder
+	BINDER_ADDRESS <binder_address>
+	BINDER_PORT <binder_port>
+
+Server:
+	$setenv BINDER_ADDRESS <binder_address>
+	$setenv BINDER_PORT <binder_port>
+	$./server
+
+Client:
+	$setenv BINDER_ADDRESS <binder_address>
+	$setenv BINDER_PORT <binder_port>
+	$./client

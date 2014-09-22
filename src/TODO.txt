@@ -1,0 +1,82 @@
+TODO
+
+x refactor rpc.h and rpc.cpp made RPCServer.h to encapsulate server logic
+x implement rpc_init
+x implement exception handling "MyExceptions.h"
+x refactor incoming/outgoing socket manager
+x Check that the "length" field in the header corresponds only to the length
+  of the body of the message.
+x convert handle_error to throw MY_EXCEPTION
+x implement function signature
+	x implement < operator
+x implement rpc_register
+	x send REGISTER msg to binder
+	x store in local database
+	x start new thread for each connection
+	x store server in binder database
+	x receive response from binder
+
+- Implement rpc_execute -> dev
+	- test
+
+
+- implement rpc_call
+	x implement location request from binder
+	- args serialization
+		x EXECUTE args serialization
+		- EXECUTE args deserialization
+		- EXECUTE_SUCCESS args serialization
+		- EXECUTE_SUCCESS args deserialization
+		- test
+	x implement execution request from client
+	x receive response from server
+	x copy args into client memory locations
+		- test
+
+- implement rpc_terminate
+	- binder forward terminate messages
+	- servers check for binder crash
+	- shoudl server wait for all fcns to finish executing before terminating?
+		(ie join all threads)
+
+x Remove registered fcns upon server disconnect
+- implement round robin
+	- maintain independent set of ServerInfos on binder
+	- add "lastExecuted" timestamp field in ServerInfo
+	- when register request, store reference to shared serverinfo
+	- When get a execute request, take serverInfo with biggest lastExecuted timestamp
+	- update timestamp on selected serverInfo
+
+
+- Error checking including duplicate function registrations
+- binder failure -> server shutdown
+- implement warnings? -> What for?
+- Check startup order, binder - server - client
+- Check for function registration in LOC_REQUEST and EXECUTE
+- Check server function order: init->register->execute
+- Output? -> remove couts
+
+- configure makefile to only produce binder and librpc.a
+- Test by copying only librpc.a and rpc.h to client and server site
+
+- System Manual
+	-  design choices
+		- marshalling / unmarshalling
+		- binder database
+		- function overloading
+		- round robin scheduling
+		- termination procedures
+		- anything else noteworthy
+	- error codes and description
+	- identify functionality that was not completed (if any)
+	- advanced functionality (if any)
+- README -> how to compile server and client
+	- names and userids of both group members
+
+- Check over 7.3 evaluation
+
+----
+modified rpc_register RPCServer.cpp
+modified Binder.cpp and .h
+database.h/.cpp
+makefile
